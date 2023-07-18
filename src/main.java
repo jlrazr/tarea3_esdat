@@ -7,7 +7,7 @@ public class main {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                Interfaz frame = new Interfaz();
+                InterfazUsuario frame = new InterfazUsuario();
                 frame.setVisible(true);
             }
         });

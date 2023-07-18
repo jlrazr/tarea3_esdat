@@ -2,12 +2,12 @@ public class Libro {
 
     private int id;
     private String nombre;
-    private int anho;
+    private int anio;
 
-    public Libro(int id, String nombre, int anho) {
+    public Libro(int id, String nombre, int anio) {
         this.id = id;
         this.nombre = nombre;
-        this.anho = anho;
+        this.anio = anio;
     }
 
     public int getId() {
@@ -19,11 +19,11 @@ public class Libro {
     }
 
     public int getAnho() {
-        return anho;
+        return anio;
     }
 
     @Override
     public String toString() {
-        return "Id: " + id + ", Nombre: " + nombre + ", Año: " + anho;
+        return "Id: " + id + ", Nombre: " + nombre + ", Año: " + anio;
     }
 }

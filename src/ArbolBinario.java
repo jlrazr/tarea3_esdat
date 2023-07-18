@@ -28,7 +28,6 @@ public class ArbolBinario {
                 return insertarNodo(nodo.getDerecho(), libro);
             }
         } else {
-            // El id ya existe en el árbol
             return false;
         }
     }
@@ -91,45 +90,44 @@ public class ArbolBinario {
 
 
     // Método para eliminar un nodo
-    // Método para eliminar un nodo
-public boolean eliminar(int id) {
-    Nodo nodoPadre = null;
-    Nodo nodoActual = raiz;
-    while (nodoActual != null) {
-        if (id == nodoActual.getLibro().getId()) {
-            if (nodoActual.getIzquierdo() == null && nodoActual.getDerecho() == null) {
-                // Caso 1: el nodo a eliminar es una hoja
-                if (nodoPadre.getIzquierdo() == nodoActual) {
-                    nodoPadre.setIzquierdo(null);
+    public boolean eliminar(int id) {
+        Nodo nodoPadre = null;
+        Nodo nodoActual = raiz;
+        while (nodoActual != null) {
+            if (id == nodoActual.getLibro().getId()) {
+                if (nodoActual.getIzquierdo() == null && nodoActual.getDerecho() == null) {
+                    // Caso 1: el nodo a eliminar es una hoja
+                    if (nodoPadre.getIzquierdo() == nodoActual) {
+                        nodoPadre.setIzquierdo(null);
+                    } else {
+                        nodoPadre.setDerecho(null);
+                    }
+                } else if (nodoActual.getIzquierdo() == null || nodoActual.getDerecho() == null) {
+                    // Caso 2: el nodo a eliminar tiene un solo hijo
+                    Nodo hijo = (nodoActual.getIzquierdo() != null) ? nodoActual.getIzquierdo() : nodoActual.getDerecho();
+                    if (nodoPadre.getIzquierdo() == nodoActual) {
+                        nodoPadre.setIzquierdo(hijo);
+                    } else {
+                        nodoPadre.setDerecho(hijo);
+                    }
                 } else {
-                    nodoPadre.setDerecho(null);
+                    // Caso 3: el nodo a eliminar tiene dos hijos
+                    Nodo sucesor = encontrarSucesor(nodoActual);
+                    Libro libroSucesor = sucesor.getLibro();
+                    eliminar(libroSucesor.getId());  // Elimina el sucesor
+                    nodoActual.setLibro(libroSucesor);  // Sustituye el libro del nodo a eliminar con el del sucesor
                 }
-            } else if (nodoActual.getIzquierdo() == null || nodoActual.getDerecho() == null) {
-                // Caso 2: el nodo a eliminar tiene un solo hijo
-                Nodo hijo = (nodoActual.getIzquierdo() != null) ? nodoActual.getIzquierdo() : nodoActual.getDerecho();
-                if (nodoPadre.getIzquierdo() == nodoActual) {
-                    nodoPadre.setIzquierdo(hijo);
-                } else {
-                    nodoPadre.setDerecho(hijo);
-                }
+                return true;
+            } else if (id < nodoActual.getLibro().getId()) {
+                nodoPadre = nodoActual;
+                nodoActual = nodoActual.getIzquierdo();
             } else {
-                // Caso 3: el nodo a eliminar tiene dos hijos
-                Nodo sucesor = encontrarSucesor(nodoActual);
-                Libro libroSucesor = sucesor.getLibro();
-                eliminar(libroSucesor.getId());  // Elimina el sucesor
-                nodoActual.setLibro(libroSucesor);  // Sustituye el libro del nodo a eliminar con el del sucesor
+                nodoPadre = nodoActual;
+                nodoActual = nodoActual.getDerecho();
             }
-            return true;
-        } else if (id < nodoActual.getLibro().getId()) {
-            nodoPadre = nodoActual;
-            nodoActual = nodoActual.getIzquierdo();
-        } else {
-            nodoPadre = nodoActual;
-            nodoActual = nodoActual.getDerecho();
         }
+        return false;  // El nodo con el id dado no se encontró
     }
-    return false;  // El nodo con el id dado no se encontró
-}
 
     private Nodo encontrarSucesor(Nodo nodo) {
         Nodo sucesor = nodo.getDerecho();
@@ -137,5 +135,19 @@ public boolean eliminar(int id) {
             sucesor = sucesor.getIzquierdo();
         }
         return sucesor;
+    }
+    
+    // Método para mostrar en texto el contenido del árbol
+    public String imprimirArbol() {
+        return this.imprimirArbolPreOrden(this.raiz, "");
+    }
+
+    private String imprimirArbolPreOrden(Nodo nodo, String separador) {
+        if (nodo == null) {
+            return "";
+        }
+        return separador + nodo.getLibro().toString() + "\n" +
+                imprimirArbolPreOrden(nodo.getIzquierdo(), separador + "-- |IZQ| ") +
+                imprimirArbolPreOrden(nodo.getDerecho(), separador + "-- |DER| ");
     }
 }
