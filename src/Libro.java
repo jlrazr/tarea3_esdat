@@ -18,7 +18,7 @@ public class Libro {
         return nombre;
     }
 
-    public int getAnho() {
+    public int getAnio() {
         return anio;
     }
 

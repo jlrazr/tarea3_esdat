@@ -2,7 +2,7 @@ public class ArbolBinario {
 
     private Nodo raiz;
 
-    // Método para insertar un nodo
+    // Método para insertar los nodos de libros
     public boolean insertar(Libro libro) {
         if (raiz == null) {
             raiz = new Nodo(libro);
@@ -51,8 +51,8 @@ public class ArbolBinario {
 
     // Métodos de recorrido: preOrden, inOrden, postOrden
     public void preOrden() {
-    preOrdenRecursivo(raiz);
-}
+        preOrdenRecursivo(raiz);
+    }
 
     private void preOrdenRecursivo(Nodo nodo) {
         if (nodo != null) {
@@ -88,7 +88,6 @@ public class ArbolBinario {
         }
     }
 
-
     // Método para eliminar un nodo
     public boolean eliminar(int id) {
         Nodo nodoPadre = null;
@@ -96,6 +95,7 @@ public class ArbolBinario {
         while (nodoActual != null) {
             if (id == nodoActual.getLibro().getId()) {
                 if (nodoActual.getIzquierdo() == null && nodoActual.getDerecho() == null) {
+                    
                     // Caso 1: el nodo a eliminar es una hoja
                     if (nodoPadre.getIzquierdo() == nodoActual) {
                         nodoPadre.setIzquierdo(null);
@@ -103,6 +103,7 @@ public class ArbolBinario {
                         nodoPadre.setDerecho(null);
                     }
                 } else if (nodoActual.getIzquierdo() == null || nodoActual.getDerecho() == null) {
+                    
                     // Caso 2: el nodo a eliminar tiene un solo hijo
                     Nodo hijo = (nodoActual.getIzquierdo() != null) ? nodoActual.getIzquierdo() : nodoActual.getDerecho();
                     if (nodoPadre.getIzquierdo() == nodoActual) {
@@ -111,6 +112,7 @@ public class ArbolBinario {
                         nodoPadre.setDerecho(hijo);
                     }
                 } else {
+                    
                     // Caso 3: el nodo a eliminar tiene dos hijos
                     Nodo sucesor = encontrarSucesor(nodoActual);
                     Libro libroSucesor = sucesor.getLibro();
@@ -137,17 +139,65 @@ public class ArbolBinario {
         return sucesor;
     }
     
-    // Método para mostrar en texto el contenido del árbol
-    public String imprimirArbol() {
-        return this.imprimirArbolPreOrden(this.raiz, "");
+    // Métodos para mostrar en texto el contenido del árbol
+    public String recorridoEnPreOrden() {
+        return this.preOrden(this.raiz, "");
     }
 
-    private String imprimirArbolPreOrden(Nodo nodo, String separador) {
+    private String preOrden(Nodo nodo, String separador) {
         if (nodo == null) {
             return "";
         }
         return separador + nodo.getLibro().toString() + "\n" +
-                imprimirArbolPreOrden(nodo.getIzquierdo(), separador + "-- |IZQ| ") +
-                imprimirArbolPreOrden(nodo.getDerecho(), separador + "-- |DER| ");
+                preOrden(nodo.getIzquierdo(), separador + "-- |IZQ| ") +
+                preOrden(nodo.getDerecho(), separador + "-- |DER| ");
     }
+    
+   
+    public String recorridoEnInorden() {
+    return this.inOrden(this.raiz, "");
+}
+
+    private String inOrden(Nodo nodo, String separador) {
+        if (nodo == null) {
+            return "";
+        }
+        return inOrden(nodo.getIzquierdo(), separador + "-- |IZQ| ") +
+               separador + nodo.getLibro().toString() + "\n" +
+               inOrden(nodo.getDerecho(), separador + "-- |DER| ");
+    }
+    
+    public String recorridoEnPostOrden() {
+        return this.postOrden(this.raiz, "");
+    }
+
+    private String postOrden(Nodo nodo, String separador) {
+        if (nodo == null) {
+            return "";
+        }
+        return postOrden(nodo.getIzquierdo(), separador + "-- |IZQ| ") +
+               postOrden(nodo.getDerecho(), separador + "-- |DER| ") +
+               separador + nodo.getLibro().toString() + "\n";
+    }
+
+    
+    public String mostrarNodosHoja() {
+        return this.nodosHoja(this.raiz, "");
+    }
+
+    private String nodosHoja(Nodo nodo, String separador) {
+        if (nodo == null) {
+            return "";
+        }
+        // Verifica si el nodo actual es un nodo hoja
+        if (nodo.getIzquierdo() == null && nodo.getDerecho() == null) {
+            return separador + nodo.getLibro().toString() + "\n";
+        }
+        // Si no es un nodo hoja, continúa la búsqueda en sus hijos
+        return nodosHoja(nodo.getIzquierdo(), separador + "-- |IZQ| ") +
+               nodosHoja(nodo.getDerecho(), separador + "-- |DER| ");
+    }
+
+
+    
 }
