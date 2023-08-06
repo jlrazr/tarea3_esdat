@@ -231,11 +231,17 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Buscar"/>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jButton_busq_idMouseClicked"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="jButton_eliminar_id">
       <Properties>
         <Property name="text" type="java.lang.String" value="Eliminar"/>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jButton_eliminar_idMouseClicked"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="jButton_mostrar_preorden">
       <Properties>

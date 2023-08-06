@@ -86,8 +86,18 @@ public class InterfazUsuario extends javax.swing.JFrame {
         jLabel3.setText("Eliminar por ID");
 
         jButton_busq_id.setText("Buscar");
+        jButton_busq_id.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton_busq_idMouseClicked(evt);
+            }
+        });
 
         jButton_eliminar_id.setText("Eliminar");
+        jButton_eliminar_id.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton_eliminar_idMouseClicked(evt);
+            }
+        });
 
         jButton_mostrar_preorden.setText("Pre-Orden");
         jButton_mostrar_preorden.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -241,10 +251,6 @@ public class InterfazUsuario extends javax.swing.JFrame {
             jLabel_mensaje_arbol.setText("El ID del libro ya existe.");
         }
         
-        
-        
-        
-        
     }//GEN-LAST:event_jButton_incl_libroMouseClicked
 
     private void jTextField_eliminar_idActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_eliminar_idActionPerformed
@@ -274,6 +280,28 @@ public class InterfazUsuario extends javax.swing.JFrame {
         jTextArea_repre_arbol.setText(arbol.mostrarNodosHoja());
         jLabel_mensaje_arbol.setText("Mostrando solamente nodos hojas.");
     }//GEN-LAST:event__mostrar_hojasMouseClicked
+
+    private void jButton_eliminar_idMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton_eliminar_idMouseClicked
+        int id = Integer.parseInt(jTextField_eliminar_id.getText());
+
+        arbol.eliminar(id);
+        jTextArea_repre_arbol.setText(arbol.recorridoEnPreOrden());
+        jLabel_mensaje_arbol.setText("Nodo eliminado.");
+    }//GEN-LAST:event_jButton_eliminar_idMouseClicked
+
+    private void jButton_busq_idMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton_busq_idMouseClicked
+        int id = Integer.parseInt(jTextField_busq_id.getText());
+        Libro resultado = arbol.buscar(id);
+        
+        if (resultado != null) {
+            jTextArea_repre_arbol.setText(resultado.toString());
+            jLabel_mensaje_arbol.setText("Mostrado un libro.");
+        } else {
+            jTextArea_repre_arbol.setText("");
+            jLabel_mensaje_arbol.setText("El libro no existe.");
+        }
+        
+    }//GEN-LAST:event_jButton_busq_idMouseClicked
 
     /**
      * @param args the command line arguments
